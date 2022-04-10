@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const { authFactory, AuthError } = require("./auth");
+const morgan = require('morgan');
 
 const PORT = 3000;
 const { JWT_SECRET } = process.env;
@@ -13,7 +14,7 @@ const auth = authFactory(JWT_SECRET);
 const app = express();
 
 app.use(bodyParser.json());
-
+app.use(morgan('combined'));
 app.post("/auth", (req, res, next) => {
   if (!req.body) {
     return res.status(400).json({ error: "invalid payload" });
